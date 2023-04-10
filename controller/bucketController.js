@@ -11,7 +11,7 @@ function createUserBucket(req, res) {
   }
 }
 
-function uploadToUserBucket(req,res){
+function uploadToUserBucket(req, res) {
   let file = req.file;
   if (!file) {
     return res.status(400).json({ error: "No file uploaded" });
@@ -19,7 +19,7 @@ function uploadToUserBucket(req,res){
   res.status(200).send({ message: "File upload to bucket successful" });
 }
 
-function listAllUserFiles(req,res) {
+function listAllUserFiles(req, res) {
   let folderName = `${req.query.bucketName}-${req.query.userId}`;
   let dir = `Buckets/${folderName}`;
 
@@ -39,7 +39,7 @@ function listAllUserFiles(req,res) {
   });
 }
 
-function getFileDetails(req,res){
+function getFileDetails(req, res) {
   let fileName = req.params.fileName;
   let filePath = `${req.query.bucketName}-${req.query.userId}/${fileName}`;
   let dir = `Buckets/${filePath}`;
@@ -58,7 +58,7 @@ function getFileDetails(req,res){
   });
 }
 
-function deleteFile(req,res){
+function deleteFile(req, res) {
   let filePath = `${req.body.bucketName}-${req.body.userId}/${req.body.fileName}`;
   let dir = `Buckets/${filePath}`;
 
@@ -76,4 +76,10 @@ function deleteFile(req,res){
   });
 }
 
-module.exports = {deleteFile,getFileDetails,listAllUserFiles,uploadToUserBucket,createUserBucket}
+module.exports = {
+  deleteFile,
+  getFileDetails,
+  listAllUserFiles,
+  uploadToUserBucket,
+  createUserBucket,
+};
