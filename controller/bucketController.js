@@ -29,8 +29,8 @@ function listAllUserFiles(req, res) {
   let dir = `Buckets/${folderName}`;
 
   // Check if bucket directory exists
-  fs.existsSync(dir, (exists) => {
-    if (!exists) {
+  fs.access(dir, (err) => {
+    if (err) {
       return res.status(400).json("Destination Bucket does not exist ");
     } else {
       // Read all files in bucket directory
@@ -40,7 +40,7 @@ function listAllUserFiles(req, res) {
             .status(400)
             .json({ error: "No files found in Bucket " + bucketName });
         }
-        return res.status(200).send({ message: "Files found are", files });
+        res.status(200).send({ message: "Files found are", files });
       });
     }
   });
