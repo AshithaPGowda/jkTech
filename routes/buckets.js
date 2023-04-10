@@ -41,7 +41,7 @@ const upload = multer({ storage: uploadToStorage });
 
 router.post("/create", checkBodyParams, createUserBucket);
 
-router.post(
+router.put(
   "/upload",
   checkBodyParams,
   upload.single("file"),
