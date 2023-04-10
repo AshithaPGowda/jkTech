@@ -4,6 +4,8 @@ const multer = require("multer");
 const fs = require("fs");
 const path = require("path");
 
+import { checkBodyParams } from "../validator/bodyValidator";
+
 const uploadToStorage = multer.diskStorage({
   destination: async (req, file, cb) => {
     let folderName = `${req.query.bucketName}-${req.query.userId}`;
@@ -26,17 +28,7 @@ const uploadToStorage = multer.diskStorage({
 
 const upload = multer({ storage: uploadToStorage });
 
-router.post("/create", (req, res) => {
-  if (
-    req.body.bucketName == "" ||
-    req.body.bucketName == null ||
-    !req.body.bucketName
-  ) {
-    return res.status(400).json({ error: "Bucket Name cannot be empty" });
-  }
-  if (req.body.userId == "" || req.body.userId == null || !req.body.userId) {
-    return res.status(400).json({ error: "userId cannot be empty" });
-  }
+router.post("/create", checkBodyParams, (req, res) => {
   let dirName = `Buckets/${req.body.bucketName}-${req.body.userId}`;
 
   if (fs.existsSync(dirName)) {
@@ -47,7 +39,7 @@ router.post("/create", (req, res) => {
   }
 });
 
-router.post("/upload", upload.single("file"), (req, res) => {
+router.post("/upload", checkBodyParams, upload.single("file"), (req, res) => {
   let file = req.file;
   if (!file) {
     return res.status(400).json({ error: "No file uploaded" });
@@ -99,7 +91,7 @@ router.get("/list/:fileName", (req, res) => {
   });
 });
 
-router.post("/delete", (req, res) => {
+router.post("/delete", checkBodyParams, (req, res) => {
   let filePath = `${req.body.bucketName}-${req.body.userId}/${req.body.fileName}`;
   let dir = `Buckets/${filePath}`;
 
@@ -112,8 +104,8 @@ router.post("/delete", (req, res) => {
       return res.status(402).json({ error: "File not found" });
     }
     return res
-    .status(200)
-    .send({ message: "File deleted " + req.body.fileName });
+      .status(200)
+      .send({ message: "File deleted " + req.body.fileName });
   });
 });
 
