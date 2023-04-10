@@ -1,0 +1,13 @@
+version: '3'
+services:
+  storage:
+    container_name: jkTech-S3-like-Storage
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./Buckets:/app/Buckets
+    environment:
+      NODE_ENV: production
