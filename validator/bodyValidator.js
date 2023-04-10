@@ -10,4 +10,4 @@ function checkBodyParams(req, res, next) {
     next();
 }
 
-module.exports = checkBodyParams;
+module.exports = {checkBodyParams};

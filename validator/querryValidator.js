@@ -9,4 +9,4 @@ function checkQueryParams(req, res, next) {
     return true
 }
 
-module.exports = checkQueryParams;
+module.exports = {checkQueryParams};
