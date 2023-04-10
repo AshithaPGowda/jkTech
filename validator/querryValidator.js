@@ -6,8 +6,7 @@ function checkQueryParams(req, res, next) {
         return res.status(400).send(`Missing value for ${param}`);
       }
     }
-  
-    next();
+    return true
 }
 
 module.exports = checkQueryParams;

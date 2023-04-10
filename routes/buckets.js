@@ -61,8 +61,7 @@ router.get("/list/all", checkQueryParams, (req, res) => {
             .status(400)
             .json({ error: "No files found in Bucket " + bucketName });
         }
-        console.log("files", files);
-        res.status(200).send({ message: "Files found are", files });
+        return res.status(200).send({ message: "Files found are", files });
       });
     }
   });
@@ -73,10 +72,6 @@ router.get("/list/:fileName", checkQueryParams, (req, res) => {
   let filePath = `${req.query.bucketName}-${req.query.userId}/${fileName}`;
   let dir = `Buckets/${filePath}`;
 
-  console.log(
-    `${req.params.fileName} : fileName, ${req.query.bucketName}-${req.query.userId}/${fileName} : file path`
-  );
-  console.log("dir :", dir);
   fs.stat(dir, (err, stats) => {
     if (err) {
       return res.status(404).json({ error: "File not found" });
