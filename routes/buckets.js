@@ -3,9 +3,8 @@ var router = express.Router();
 const multer = require("multer");
 const fs = require("fs");
 const path = require("path");
-
-import { checkBodyParams } from "../validator/bodyValidator";
-import { checkQueryParams } from "../validator/querryValidator"
+const { checkBodyParams } = require('../validator/bodyValidator');
+const { checkQueryParams } = require('../validator/querryValidator');
 
 const uploadToStorage = multer.diskStorage({
   destination: async (req, file, cb) => {
