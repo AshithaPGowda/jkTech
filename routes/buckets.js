@@ -5,6 +5,7 @@ const fs = require("fs");
 const path = require("path");
 
 import { checkBodyParams } from "../validator/bodyValidator";
+import { checkQueryParams } from "../validator/querryValidator"
 
 const uploadToStorage = multer.diskStorage({
   destination: async (req, file, cb) => {
@@ -47,7 +48,7 @@ router.post("/upload", checkBodyParams, upload.single("file"), (req, res) => {
   res.status(200).send({ message: "File upload to bucket successful" });
 });
 
-router.get("/list/all", (req, res) => {
+router.get("/list/all", checkQueryParams, (req, res) => {
   let folderName = `${req.query.bucketName}-${req.query.userId}`;
   let dir = `Buckets/${folderName}`;
 
@@ -68,7 +69,7 @@ router.get("/list/all", (req, res) => {
   });
 });
 
-router.get("/list/:fileName", (req, res) => {
+router.get("/list/:fileName", checkQueryParams, (req, res) => {
   let fileName = req.params.fileName;
   let filePath = `${req.query.bucketName}-${req.query.userId}/${fileName}`;
   let dir = `Buckets/${filePath}`;
