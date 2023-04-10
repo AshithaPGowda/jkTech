@@ -13,10 +13,13 @@ const {
   createUserBucket,
 } = require("../controller/bucketController");
 
+// Define a disk storage to handle file uploads
 const uploadToStorage = multer.diskStorage({
+  // Define destination folder for the uploaded file
   destination: async (req, file, cb) => {
     let folderName = `${req.query.bucketName}-${req.query.userId}`;
     let dir = `Buckets/${folderName}`;
+    // Check if the destination folder exists
     fs.access(dir, fs.constants.F_OK, (err) => {
       if (err) {
         return cb("Destination directory does not exist", false);
@@ -25,6 +28,7 @@ const uploadToStorage = multer.diskStorage({
       }
     });
   },
+  // Define a custom file name for the uploaded file
   filename: (req, file, cb) => {
     let fileName = req.query.fileName;
     let ext = path.extname(file.originalname);
